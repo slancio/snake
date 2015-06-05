@@ -11,6 +11,7 @@
     this.dimX = dimX || DIMX;
     this.board = this.setupBoard(this.dimY, this.dimX);
     this.snake = new Snake.Snake([Math.round(this.dimY / 2), Math.round(this.dimX / 2)]);
+    this.addApple();
   };
 
   Board.prototype.addApple = function () {
@@ -41,6 +42,7 @@
     var new_x = new_pos[1];
     if (this.board[new_y][new_x] === "A") {
       this.snake.eat();
+      this.addApple();
     }
 
     return newCoord;
@@ -51,9 +53,6 @@
 
     for (var i = 0; i < this.dimY; i++) {
       for (var j = 0; j < this.dimX; j++) {
-        if (this.board[j][i] === "A") {
-          continue;
-        }
 
         var isSegment = false;
 
@@ -65,6 +64,10 @@
 
         if (isSegment) {
           this.board[j][i] = "S";
+        } else {
+          if (this.board[j][i] !== "A") {
+            this.board[j][i] = ".";
+          }
         }
       }
     }

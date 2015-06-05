@@ -67,7 +67,7 @@
       $child.removeClass();
       if (boardString[i] === "S") {
         $child.addClass("snake");
-      } else if (boardString[i] === "a") {
+      } else if (boardString[i] === "A") {
         $child.addClass("apple");
       }
     }

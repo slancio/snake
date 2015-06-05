@@ -23,7 +23,7 @@
   };
 
   Lizard.prototype.turn = function (dir) {
-    if (this.dir !== OPP_DIRS[dir]) {
+    if ((this.dir[0] !== OPP_DIRS[dir][0]) && (this.dir[1] !== OPP_DIRS[dir][1])) {
       this.dir = DIRS[dir];
     }
   };
