@@ -48,7 +48,8 @@
     }
 
     var tick = function () {
-      this.board.snake.move();
+      var newCoord = this.board.getMove();
+      this.board.snake.move(newCoord);
       this.render();
     };
 
