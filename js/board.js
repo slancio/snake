@@ -1,96 +1,81 @@
-;(function() {
+;(function () {
   "use strict";
   if ( typeof Snake === "undefined" ) {
     window.Snake = {};
   }
 
-  var DIMX = 40;
-  var DIMY = 20;
+  var DIMY = 20, DIMX = 20;
 
-  var Board = Snake.Board = function(dimX, dimY) {
-    this.snake = new Snake.Snake();
-    this.dimX = dimX || DIMX;
+  var Board = Snake.Board = function (dimY, dimX) {
     this.dimY = dimY || DIMY;
-    this.apples = [];
+    this.dimX = dimX || DIMX;
+    this.board = this.setupBoard(this.dimY, this.dimX);
+    this.snake = new Snake.Snake([Math.round(dimY / 2), Math.round(dimX / 2)]);
   };
 
-  Board.prototype.render = function() {
-    var boardString = "";
-    var apples = this.apples;
+  Board.prototype.addApple = function () {
+    var needApple = true;
+    while (needApple) {
+      var pos = this.randomPos();
+      var y = pos[0], x = pos[1];
+      if (this.board[y][x] !== "S") {
+        this.board[y][x] = "A";
+        needApple = false;
+      }
+    }
+  };
+
+  Board.prototype.testMove = function () {
+    var frontPos = this.segments[0].pos();
+    var newCoord = new Snake.Coord(frontPos);
+    newCoord.plus(this.dir);
+
+    this.snake.segments.forEach(function (coord) {
+      if (coord.equals([newCoord.pos])) {
+        alert("Game Over");
+      }
+    });
+  };
+
+  Board.prototype.render = function () {
     var segments = this.snake.segments;
 
     for (var i = 0; i < this.dimY; i++) {
-      var rowString = "";
-
       for (var j = 0; j < this.dimX; j++) {
+        if (this.board[j][i] === "A") {
+          continue;
+        }
+
         var isSegment = false;
-        var isApple = false;
 
-        apples.forEach(function(coord) {
-          if (coord.equals([j,i])) {
-            isApple = true;
-          }
-        });
-
-        segments.forEach(function(coord) {
-          if (coord.equals([j,i])) {
+        segments.forEach(function (coord) {
+          if (coord.equals([j, i])) {
             isSegment = true;
           }
         });
 
         if (isSegment) {
-          rowString += "S";
-        } else if (isApple) {
-          rowString += "a";
-        } else {
-          rowString += ".";
-        }
-
-      }
-      boardString += rowString;
-    }
-
-    return boardString;
-  };
-
-  Board.prototype.allObjects = function() {
-    return this.snake.segments.concat(this.apples);
-  }
-
-  Board.prototype.addApple = function() {
-    var newCoord = null;
-
-    var randomPos = function() {
-      var x = Math.floor(Math.random() * this.dimX);
-      var y = Math.floor(Math.random() * this.dimY);
-      var objects = this.allObjects();
-      for (var i = 0; i < objects.length; i++) {
-        if (objects[i].equals([x,y])) {
-          return random.call(this);
+          this.board[j][i] = "S";
         }
       }
-      return new Snake.Coord([x, y]);
     }
-    this.apples.push(randomPos.call(this));
   };
 
-  Board.prototype.testMove = function() {
-    var frontPos = this.segments[0].pos();
-    var newCoord = new Snake.Coord(frontPos);
-    newCoord.plus(this.dir);
+  Board.prototype.randomPos = function () {
+    return [Math.floor(Math.random() * this.dimY), Math.floor(Math.random() * this.dimX)];
+  };
 
-    this.snake.segments.forEach(function(coord) {
-      if (coord.equals([newCoord.pos])) {
-        alert("Game Over");
+  Board.prototype.setupBoard = function (y, x) {
+    var grid = [];
+    for (var i = 0; i < y; i++) {
+      var row = [];
+      for (var j = 0; j < x; j++) {
+        row.push(".");
       }
-    });
+      grid.push(row);
+    }
 
-    this.apples.forEach(function(coord) {
-      if (coord.equals([newCoord.pos])) {
-        this.apples.splice(newCoord, 1);
-        this.snake.eatsAnApple();
-      }
-    });
-  }
+    return grid;
+  };
 
 })();

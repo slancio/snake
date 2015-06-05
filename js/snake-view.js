@@ -1,20 +1,20 @@
-;(function() {
+;(function () {
   "use strict";
   if ( typeof Snake === "undefined" ) {
     window.Snake = {};
   }
 
-  var View = Snake.View = function(board, $el) {
+  var View = Snake.View = function (board, $el) {
     this.board = board;
     this.$el = $el;
   };
 
-  View.prototype.turnSnake = function(dir) {
+  View.prototype.turnSnake = function (dir) {
     this.board.snake.turn(dir);
   };
 
-  View.prototype.handleKeyEvent = function() {
-    $(document).keydown(function(event) {
+  View.prototype.handleKeyEvent = function () {
+    $(document).keydown(function (event) {
       switch(event.which) {
         case 87:
         case 73:
@@ -40,32 +40,25 @@
     }.bind(this));
   };
 
-  View.prototype.setupBoard = function() {
+  View.prototype.setupBoard = function () {
     var total = this.board.dimX * this.board.dimY;
     var html = "<li></li>";
     for (var i = 0; i < total; i++) {
       this.$el.append(html);
     }
 
-    var tick = function() {
+    var tick = function () {
       this.board.snake.move();
       this.render();
-    }
-
-    var appleTick = function() {
-      if ( this.board.apples.length < 5 ) {
-        this.board.addApple();
-      }
-    }
+    };
 
     this.render();
     this.handleKeyEvent();
 
     setInterval(tick.bind(this), 100);
-    setInterval(appleTick.bind(this), 3000);
   };
 
-  View.prototype.render = function() {
+  View.prototype.render = function () {
     var boardString = this.board.render();
     var $children = this.$el.children();
     for (var i = 0; i < boardString.length; i++) {

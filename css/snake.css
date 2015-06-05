@@ -10,6 +10,9 @@ h1, h2, a, button, head {
 
   font: inherit;
 }
+html, body {
+  overflow: hidden;
+}
 
 body {
   font-family: sans-serif;
@@ -37,10 +40,10 @@ header {
 }
 
 .board {
-  padding: 200px;
+  padding: 40px;
   margin: auto;
-  width: 400px;
-  height: 200px;
+  width: 800px;
+  height: 800px;
 
 }
 
@@ -48,8 +51,8 @@ header {
   display: block;
   float: left;
   background: #eee;
-  width: 8px;  /* make 10px */
-  height: 8px; /* make 10px */
+  width: 38px;  /* make 40px */
+  height: 38px; /* make 40px */
   border: 1px dotted #aaa; /* TODO: remove after troubleshooting */
 }
 
