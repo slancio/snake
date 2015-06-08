@@ -32,7 +32,7 @@
     newCoord.plus(this.snake.dir, [this.dimY, this.dimX]);
 
     this.snake.segments.forEach(function (coord) {
-      if (coord.equals([newCoord.pos])) {
+      if (coord.equals(newCoord.pos())) {
         alert("Game Over");
       }
     });
