@@ -14,7 +14,7 @@
   };
 
   View.prototype.handleKeyEvent = function () {
-    $(document).keydown(function (event) {
+    $(document).on('keydown', function (event) {
       switch(event.which) {
         case 87:
         case 73:
@@ -49,14 +49,26 @@
 
     var tick = function () {
       var newCoord = this.board.getMove();
-      this.board.snake.move(newCoord);
+      if (newCoord === -1) {
+        this.gameOver();
+      } else {
+        this.board.snake.move(newCoord);
+      }
       this.render();
     };
 
     this.render();
     this.handleKeyEvent();
 
-    setInterval(tick.bind(this), 100);
+    this.timer = setInterval(tick.bind(this), 100);
+  };
+
+  View.prototype.gameOver = function () {
+    clearInterval(this.timer);
+    $(document).off('keydown');
+    this.$el.on('click', function () {
+      location.reload();
+    }.bind(this));
   };
 
   View.prototype.render = function () {

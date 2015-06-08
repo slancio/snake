@@ -31,12 +31,17 @@
     var newCoord = new Snake.Coord(frontPos);
     newCoord.plus(this.snake.dir, [this.dimY, this.dimX]);
 
+    var deadSnake = false;
     this.snake.segments.forEach(function (coord) {
       if (coord.equals(newCoord.pos())) {
-        alert("Game Over");
+        deadSnake = true;
       }
     });
 
+    if (deadSnake) {
+      return -1;
+    }
+    
     var new_pos = newCoord.pos();
     var new_y = new_pos[0];
     var new_x = new_pos[1];
