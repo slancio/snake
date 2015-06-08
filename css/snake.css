@@ -63,6 +63,10 @@ ul {
   display: block;
 }
 
+.scoreboard > li {
+  padding: 5px;
+}
+
 .score {
   float: left;
   color: black;
@@ -70,6 +74,6 @@ ul {
 
 .bonus-score {
   float: right;
-  color: yellow;
+  color: green;
 
 }

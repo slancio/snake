@@ -21,7 +21,6 @@
       var y = pos[0], x = pos[1];
       if (this.board[y][x] !== "S") {
         this.board[y][x] = "A";
-        console.log([y, x]);
         needApple = false;
       }
     }

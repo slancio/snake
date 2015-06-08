@@ -41,7 +41,12 @@
       this.bonusScore = 30 * (this.segments.length - 1);
     } else {
       if (this.bonusScore > 0) {
-        this.bonusScore -= 1;
+        var pointBleed = (3 * Math.round(this.segments.length / 3));
+        if ((this.bonusScore - pointBleed) <= 0) {
+          this.bonusScore = 0;
+        } else {
+          this.bonusScore -= pointBleed;
+        }
       }
 
       this.score += (30 + this.segments.length);
